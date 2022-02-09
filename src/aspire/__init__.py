@@ -1,9 +1,8 @@
 import logging.config
 import os
 from datetime import datetime
+from importlib.resources import read_text
 from pathlib import Path
-
-from importlib_resources import read_text
 
 import aspire
 from aspire.config import Config
