@@ -82,14 +82,12 @@ class WeightedVolumesEstimator(Estimator):
         _2L = 2 * self.L
         # Note, because we're iteratively summing it is critical we zero this array.
         kernel = np.zeros((self.r, self.r, _2L, _2L, _2L), dtype=self.dtype)
-        sq_filters_f = self.src.eval_filter_grid(self.L, power=2)
+        sq_filters_f = np.square(evaluate_src_filters_on_grid(self.src))
 
         for k in range(self.r):
             for j in range(k + 1):
                 for i in range(0, self.n, self.batch_size):
-                    _range = np.arange(
-                        i, min(self.n, i + self.batch_size), dtype=np.int
-                    )
+                    _range = np.arange(i, min(self.n, i + self.batch_size), dtype=int)
                     pts_rot = rotated_grids(self.L, self.src.rots[_range, :, :])
                     weights = sq_filters_f[:, :, _range]
                     weights *= self.src.amplitudes[_range] ** 2
@@ -102,13 +100,13 @@ class WeightedVolumesEstimator(Estimator):
                         self.weights[_range, j] * self.weights[_range, k]
                     ).reshape(1, 1, len(_range))
 
-                    pts_rot = m_reshape(pts_rot, (3, -1))
-                    weights = m_flatten(weights)
+                    pts_rot = pts_rot.reshape((3, -1))
+                    weights = np.transpose(weights, (2, 0, 1)).flatten()
 
                     batch_kernel = (
                         1
                         / (2 * self.L**4)
-                        * anufft(weights, pts_rot, (_2L, _2L, _2L), real=True)
+                        * anufft(weights, pts_rot[::-1], (_2L, _2L, _2L), real=True)
                     )
                     kernel[k, j] += batch_kernel
 
