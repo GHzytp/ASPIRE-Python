@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ab-initio Pipeline Demonstration &mdash; ASPIRE 0.11.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Component Examples" href="tutorials/index.html" />
+    <link rel="prev" title="ASPIRE-Python Introduction" href="aspire_introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ASPIRE
+          </a>
+              <div class="version">
+                0.11.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Getting Started - CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../class_source.html">Class Averaging Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Galleries:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#api-introduction">API Introduction</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="configuration.html">ASPIRE Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aspire_introduction.html">ASPIRE-Python Introduction</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Ab-initio Pipeline Demonstration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#download-a-volume">Download a Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#load-a-volume">Load a Volume</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-a-simulation-source">Create a Simulation Source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#several-views-of-the-projection-images">Several Views of the Projection Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ctf-correction">CTF Correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-averaging">Class Averaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#view-the-class-averages">View the Class Averages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#orientation-estimation">Orientation Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mean-squared-error">Mean Squared Error</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#volume-reconstruction">Volume Reconstruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#comparison-of-estimated-volume-with-source-volume">Comparison of Estimated Volume with Source Volume</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#component-examples">Component Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../auto_experiments/index.html">Experiments</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASPIRE</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Ab-initio Pipeline Demonstration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/auto_tutorials/pipeline_demo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-tutorials-pipeline-demo-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="ab-initio-pipeline-demonstration">
+<span id="sphx-glr-auto-tutorials-pipeline-demo-py"></span><h1>Ab-initio Pipeline Demonstration<a class="headerlink" href="#ab-initio-pipeline-demonstration" title="Permalink to this heading">¶</a></h1>
+<p>This tutorial demonstrates some key components of an ab-initio
+reconstruction pipeline using synthetic data generated with ASPIRE’s
+<code class="docutils literal notranslate"><span class="pre">Simulation</span></code> class of objects.</p>
+<section id="download-a-volume">
+<h2>Download a Volume<a class="headerlink" href="#download-a-volume" title="Permalink to this heading">¶</a></h2>
+<p>We begin by downloading a high resolution volume map of the 80S
+Ribosome, sourced from EMDB: <a class="reference external" href="https://www.ebi.ac.uk/emdb/EMD-2660">https://www.ebi.ac.uk/emdb/EMD-2660</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<span class="c1"># Download volume</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">):</span>
+            <span class="n">fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+
+<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;emd_2660.map&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://ftp.ebi.ac.uk/pub/databases/emdb/structures/EMD-2660/map/emd_2660.map.gz&quot;</span>
+    <span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="load-a-volume">
+<h2>Load a Volume<a class="headerlink" href="#load-a-volume" title="Permalink to this heading">¶</a></h2>
+<p>We use ASPIRE’s <code class="docutils literal notranslate"><span class="pre">Volume</span></code> class to load and downsample the volume.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.volume</span> <span class="kn">import</span> <span class="n">Volume</span>
+
+<span class="c1"># Load 80s Ribosome</span>
+<span class="n">original_vol</span> <span class="o">=</span> <span class="n">Volume</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Downsample the volume</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">41</span>
+<span class="n">vol</span> <span class="o">=</span> <span class="n">original_vol</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Volume</span></code> can be saved using the <code class="docutils literal notranslate"><span class="pre">Volume.save()</span></code> method as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fn</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;downsampled_80s_ribosome_size</span><span class="si">{</span><span class="n">res</span><span class="si">}</span><span class="s2">.mrc&quot;</span>
+<span class="n">vol</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="create-a-simulation-source">
+<h2>Create a Simulation Source<a class="headerlink" href="#create-a-simulation-source" title="Permalink to this heading">¶</a></h2>
+<p>ASPIRE’s <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> class can be used to generate a synthetic
+dataset of projection images.  A <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> object produces
+random projections of a supplied Volume and applies noise and CTF
+filters. The resulting stack of 2D images is stored in an <code class="docutils literal notranslate"><span class="pre">Image</span></code>
+object.</p>
+<section id="ctf-filters">
+<h3>CTF Filters<a class="headerlink" href="#ctf-filters" title="Permalink to this heading">¶</a></h3>
+<p>Let’s start by creating CTF filters. The <code class="docutils literal notranslate"><span class="pre">operators</span></code> package
+contains a collection of filter classes that can be supplied to a
+<code class="docutils literal notranslate"><span class="pre">Simulation</span></code>.  We use <code class="docutils literal notranslate"><span class="pre">RadialCTFFilter</span></code> to generate a set of CTF
+filters with various defocus values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create CTF filters</span>
+<span class="kn">from</span> <span class="nn">aspire.operators</span> <span class="kn">import</span> <span class="n">RadialCTFFilter</span>
+
+<span class="c1"># Radial CTF Filter</span>
+<span class="n">defocus_min</span> <span class="o">=</span> <span class="mi">15000</span>  <span class="c1"># unit is angstroms</span>
+<span class="n">defocus_max</span> <span class="o">=</span> <span class="mi">25000</span>
+<span class="n">defocus_ct</span> <span class="o">=</span> <span class="mi">7</span>
+
+<span class="n">ctf_filters</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">RadialCTFFilter</span><span class="p">(</span><span class="n">pixel_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">defocus</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">defocus_min</span><span class="p">,</span> <span class="n">defocus_max</span><span class="p">,</span> <span class="n">defocus_ct</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="initialize-simulation-object">
+<h3>Initialize Simulation Object<a class="headerlink" href="#initialize-simulation-object" title="Permalink to this heading">¶</a></h3>
+<p>We feed our <code class="docutils literal notranslate"><span class="pre">Volume</span></code> and filters into <code class="docutils literal notranslate"><span class="pre">Simulation</span></code> to generate
+the dataset of images.  When controlled white Gaussian noise is
+desired, <code class="docutils literal notranslate"><span class="pre">WhiteNoiseAdder.from_snr()</span></code> can be used to generate a
+simulation data set around a specific SNR.</p>
+<p>Alternatively, users can bring their own images using an
+<code class="docutils literal notranslate"><span class="pre">ArrayImageSource</span></code>, or define their own custom noise functions via
+<code class="docutils literal notranslate"><span class="pre">Simulation(...,</span> <span class="pre">noise_adder=CustomNoiseAdder(...))</span></code>.  Examples
+can be found in <code class="docutils literal notranslate"><span class="pre">tutorials/class_averaging.py</span></code> and
+<code class="docutils literal notranslate"><span class="pre">experiments/simulated_abinitio_pipeline.py</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.noise</span> <span class="kn">import</span> <span class="n">WhiteNoiseAdder</span>
+<span class="kn">from</span> <span class="nn">aspire.source</span> <span class="kn">import</span> <span class="n">Simulation</span>
+
+<span class="c1"># set parameters</span>
+<span class="n">n_imgs</span> <span class="o">=</span> <span class="mi">2500</span>
+
+<span class="c1"># SNR target for white gaussian noise.</span>
+<span class="n">snr</span> <span class="o">=</span> <span class="mf">0.5</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note, the SNR value was chosen based on other parameters for this
+quick tutorial, and can be changed to adjust the power of the
+additive noise.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For this ``Simulation`` we set all 2D offset vectors to zero,</span>
+<span class="c1"># but by default offset vectors will be randomly distributed.</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span>
+    <span class="n">n</span><span class="o">=</span><span class="n">n_imgs</span><span class="p">,</span>  <span class="c1"># number of projections</span>
+    <span class="n">vols</span><span class="o">=</span><span class="n">vol</span><span class="p">,</span>  <span class="c1"># volume source</span>
+    <span class="n">offsets</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Default: images are randomly shifted</span>
+    <span class="n">unique_filters</span><span class="o">=</span><span class="n">ctf_filters</span><span class="p">,</span>
+    <span class="n">noise_adder</span><span class="o">=</span><span class="n">WhiteNoiseAdder</span><span class="o">.</span><span class="n">from_snr</span><span class="p">(</span><span class="n">snr</span><span class="o">=</span><span class="n">snr</span><span class="p">),</span>  <span class="c1"># desired SNR</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/5 [00:00&lt;?, ?it/s]
+ 20%|##        | 1/5 [00:00&lt;00:02,  1.76it/s]
+ 40%|####      | 2/5 [00:01&lt;00:01,  1.79it/s]
+ 60%|######    | 3/5 [00:01&lt;00:01,  1.80it/s]
+ 80%|########  | 4/5 [00:02&lt;00:00,  1.81it/s]
+100%|##########| 5/5 [00:02&lt;00:00,  1.89it/s]
+100%|##########| 5/5 [00:02&lt;00:00,  1.85it/s]
+</pre></div>
+</div>
+</section>
+</section>
+<section id="several-views-of-the-projection-images">
+<h2>Several Views of the Projection Images<a class="headerlink" href="#several-views-of-the-projection-images" title="Permalink to this heading">¶</a></h2>
+<p>We can access several views of the projection images.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># with no corruption applied</span>
+<span class="n">src</span><span class="o">.</span><span class="n">projections</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_001.png" srcset="../_images/sphx_glr_pipeline_demo_001.png" alt="pipeline demo" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># with no noise corruption</span>
+<span class="n">src</span><span class="o">.</span><span class="n">clean_images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_002.png" srcset="../_images/sphx_glr_pipeline_demo_002.png" alt="pipeline demo" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># with noise and CTF corruption</span>
+<span class="n">src</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_003.png" srcset="../_images/sphx_glr_pipeline_demo_003.png" alt="pipeline demo" class = "sphx-glr-single-img"/></section>
+<section id="ctf-correction">
+<h2>CTF Correction<a class="headerlink" href="#ctf-correction" title="Permalink to this heading">¶</a></h2>
+<p>We apply <code class="docutils literal notranslate"><span class="pre">phase_flip()</span></code> to correct for CTF effects.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">phase_flip</span><span class="p">()</span>
+<span class="n">src</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_004.png" srcset="../_images/sphx_glr_pipeline_demo_004.png" alt="pipeline demo" class = "sphx-glr-single-img"/></section>
+<section id="class-averaging">
+<h2>Class Averaging<a class="headerlink" href="#class-averaging" title="Permalink to this heading">¶</a></h2>
+<p>We use <code class="docutils literal notranslate"><span class="pre">RIRClass2D</span></code> object to classify the images via the
+rotationally invariant representation (RIR) algorithm. Class
+selection is customizable. The classification module also includes a
+set of protocols for selecting a set of images to be used for
+classification.  Here we’re using <code class="docutils literal notranslate"><span class="pre">TopClassSelector</span></code>, which
+selects the first <code class="docutils literal notranslate"><span class="pre">n_classes</span></code> images from the source.  In
+practice, the selection is done by sorting class averages based on
+some configurable notion of quality.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.classification</span> <span class="kn">import</span> <span class="n">RIRClass2D</span>
+
+<span class="c1"># set parameters</span>
+<span class="n">n_classes</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">n_nbor</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="c1"># We will customize our class averaging source. Note that the</span>
+<span class="c1"># ``fspca_components`` and ``bispectrum_components`` were selected for</span>
+<span class="c1"># this small tutorial.</span>
+<span class="n">rir</span> <span class="o">=</span> <span class="n">RIRClass2D</span><span class="p">(</span>
+    <span class="n">src</span><span class="p">,</span>
+    <span class="n">fspca_components</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">bispectrum_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">n_nbor</span><span class="o">=</span><span class="n">n_nbor</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">aspire.denoising</span> <span class="kn">import</span> <span class="n">DebugClassAvgSource</span>
+
+<span class="n">avgs</span> <span class="o">=</span> <span class="n">DebugClassAvgSource</span><span class="p">(</span>
+    <span class="n">src</span><span class="o">=</span><span class="n">src</span><span class="p">,</span>
+    <span class="n">classifier</span><span class="o">=</span><span class="n">rir</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># We&#39;ll continue our pipeline with the first ``n_classes`` from ``avgs``.</span>
+<span class="n">avgs</span> <span class="o">=</span> <span class="n">avgs</span><span class="p">[:</span><span class="n">n_classes</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="view-the-class-averages">
+<h2>View the Class Averages<a class="headerlink" href="#view-the-class-averages" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show class averages</span>
+<span class="n">avgs</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_005.png" srcset="../_images/sphx_glr_pipeline_demo_005.png" alt="pipeline demo" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/5 [00:00&lt;?, ?it/s]
+ 20%|##        | 1/5 [00:01&lt;00:07,  1.99s/it]
+ 40%|####      | 2/5 [00:03&lt;00:05,  1.99s/it]
+ 60%|######    | 3/5 [00:05&lt;00:03,  1.99s/it]
+ 80%|########  | 4/5 [00:07&lt;00:01,  1.99s/it]
+100%|##########| 5/5 [00:09&lt;00:00,  1.91s/it]
+100%|##########| 5/5 [00:09&lt;00:00,  1.95s/it]
+
+  0%|          | 0/5 [00:00&lt;?, ?it/s]
+ 20%|##        | 1/5 [00:00&lt;00:01,  3.77it/s]
+ 40%|####      | 2/5 [00:00&lt;00:00,  3.76it/s]
+ 60%|######    | 3/5 [00:00&lt;00:00,  3.80it/s]
+ 80%|########  | 4/5 [00:01&lt;00:00,  3.78it/s]
+100%|##########| 5/5 [00:01&lt;00:00,  3.96it/s]
+100%|##########| 5/5 [00:01&lt;00:00,  3.88it/s]
+
+  0%|          | 0/10 [00:00&lt;?, ?it/s]
+ 10%|#         | 1/10 [00:00&lt;00:02,  3.99it/s]
+ 20%|##        | 2/10 [00:00&lt;00:01,  5.85it/s]
+ 30%|###       | 3/10 [00:00&lt;00:01,  6.77it/s]
+ 40%|####      | 4/10 [00:00&lt;00:00,  7.31it/s]
+ 50%|#####     | 5/10 [00:00&lt;00:00,  7.75it/s]
+ 60%|######    | 6/10 [00:00&lt;00:00,  7.92it/s]
+ 70%|#######   | 7/10 [00:00&lt;00:00,  8.05it/s]
+ 80%|########  | 8/10 [00:01&lt;00:00,  8.20it/s]
+ 90%|######### | 9/10 [00:01&lt;00:00,  8.29it/s]
+100%|##########| 10/10 [00:01&lt;00:00,  8.32it/s]
+100%|##########| 10/10 [00:01&lt;00:00,  7.60it/s]
+
+  0%|          | 0/10 [00:00&lt;?, ?it/s]
+ 20%|##        | 2/10 [00:00&lt;00:00, 19.37it/s]
+ 40%|####      | 4/10 [00:00&lt;00:00, 18.82it/s]
+ 60%|######    | 6/10 [00:00&lt;00:00, 19.10it/s]
+ 80%|########  | 8/10 [00:00&lt;00:00, 19.04it/s]
+100%|##########| 10/10 [00:00&lt;00:00, 19.22it/s]
+100%|##########| 10/10 [00:00&lt;00:00, 19.13it/s]
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show original images corresponding to those classes. This 1:1</span>
+<span class="c1"># comparison is only expected to work because we used</span>
+<span class="c1"># ``TopClassSelector`` to classify our images.</span>
+<span class="n">src</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_006.png" srcset="../_images/sphx_glr_pipeline_demo_006.png" alt="pipeline demo" class = "sphx-glr-single-img"/></section>
+<section id="orientation-estimation">
+<h2>Orientation Estimation<a class="headerlink" href="#orientation-estimation" title="Permalink to this heading">¶</a></h2>
+<p>We initialize a <code class="docutils literal notranslate"><span class="pre">CLSyncVoting</span></code> class instance for estimating the
+orientations of the images.  The estimation employs the common lines
+method with synchronization and voting.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.abinitio</span> <span class="kn">import</span> <span class="n">CLSyncVoting</span>
+
+<span class="c1"># Stash true rotations for later comparison</span>
+<span class="n">true_rotations</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">rotations</span><span class="p">[:</span><span class="n">n_classes</span><span class="p">]</span>
+
+<span class="c1"># Run orientation estimation on ``avgs``.</span>
+<span class="n">orient_est</span> <span class="o">=</span> <span class="n">CLSyncVoting</span><span class="p">(</span><span class="n">avgs</span><span class="p">,</span> <span class="n">n_theta</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+
+<span class="c1"># Get the estimated rotations</span>
+<span class="n">orient_est</span><span class="o">.</span><span class="n">estimate_rotations</span><span class="p">()</span>
+<span class="n">rots_est</span> <span class="o">=</span> <span class="n">orient_est</span><span class="o">.</span><span class="n">rotations</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/200 [00:00&lt;?, ?it/s]
+  0%|          | 1/200 [00:00&lt;00:22,  8.78it/s]
+  1%|1         | 2/200 [00:00&lt;00:22,  8.61it/s]
+  2%|1         | 3/200 [00:00&lt;00:23,  8.45it/s]
+  2%|2         | 4/200 [00:00&lt;00:23,  8.24it/s]
+  2%|2         | 5/200 [00:00&lt;00:23,  8.37it/s]
+  3%|3         | 6/200 [00:00&lt;00:23,  8.31it/s]
+  4%|3         | 7/200 [00:00&lt;00:23,  8.29it/s]
+  4%|4         | 8/200 [00:00&lt;00:23,  8.30it/s]
+  4%|4         | 9/200 [00:01&lt;00:22,  8.42it/s]
+  5%|5         | 10/200 [00:01&lt;00:22,  8.39it/s]
+  6%|5         | 11/200 [00:01&lt;00:22,  8.33it/s]
+  6%|6         | 12/200 [00:01&lt;00:22,  8.36it/s]
+  6%|6         | 13/200 [00:01&lt;00:22,  8.32it/s]
+  7%|7         | 14/200 [00:01&lt;00:22,  8.19it/s]
+  8%|7         | 15/200 [00:01&lt;00:22,  8.22it/s]
+  8%|8         | 16/200 [00:01&lt;00:22,  8.21it/s]
+  8%|8         | 17/200 [00:02&lt;00:22,  8.19it/s]
+  9%|9         | 18/200 [00:02&lt;00:21,  8.28it/s]
+ 10%|9         | 19/200 [00:02&lt;00:21,  8.23it/s]
+ 10%|#         | 20/200 [00:02&lt;00:21,  8.26it/s]
+ 10%|#         | 21/200 [00:02&lt;00:21,  8.29it/s]
+ 11%|#1        | 22/200 [00:02&lt;00:21,  8.24it/s]
+ 12%|#1        | 23/200 [00:02&lt;00:21,  8.27it/s]
+ 12%|#2        | 24/200 [00:02&lt;00:20,  8.39it/s]
+ 12%|#2        | 25/200 [00:03&lt;00:20,  8.40it/s]
+ 13%|#3        | 26/200 [00:03&lt;00:20,  8.37it/s]
+ 14%|#3        | 27/200 [00:03&lt;00:20,  8.37it/s]
+ 14%|#4        | 28/200 [00:03&lt;00:20,  8.37it/s]
+ 14%|#4        | 29/200 [00:03&lt;00:20,  8.43it/s]
+ 15%|#5        | 30/200 [00:03&lt;00:20,  8.37it/s]
+ 16%|#5        | 31/200 [00:03&lt;00:20,  8.39it/s]
+ 16%|#6        | 32/200 [00:03&lt;00:20,  8.30it/s]
+ 16%|#6        | 33/200 [00:03&lt;00:20,  8.22it/s]
+ 17%|#7        | 34/200 [00:04&lt;00:20,  8.26it/s]
+ 18%|#7        | 35/200 [00:04&lt;00:20,  8.20it/s]
+ 18%|#8        | 36/200 [00:04&lt;00:19,  8.24it/s]
+ 18%|#8        | 37/200 [00:04&lt;00:19,  8.26it/s]
+ 19%|#9        | 38/200 [00:04&lt;00:19,  8.25it/s]
+ 20%|#9        | 39/200 [00:04&lt;00:19,  8.39it/s]
+ 20%|##        | 40/200 [00:04&lt;00:19,  8.36it/s]
+ 20%|##        | 41/200 [00:04&lt;00:19,  8.36it/s]
+ 21%|##1       | 42/200 [00:05&lt;00:18,  8.37it/s]
+ 22%|##1       | 43/200 [00:05&lt;00:18,  8.47it/s]
+ 22%|##2       | 44/200 [00:05&lt;00:18,  8.48it/s]
+ 22%|##2       | 45/200 [00:05&lt;00:18,  8.42it/s]
+ 23%|##3       | 46/200 [00:05&lt;00:18,  8.41it/s]
+ 24%|##3       | 47/200 [00:05&lt;00:18,  8.36it/s]
+ 24%|##4       | 48/200 [00:05&lt;00:18,  8.32it/s]
+ 24%|##4       | 49/200 [00:05&lt;00:17,  8.41it/s]
+ 25%|##5       | 50/200 [00:05&lt;00:17,  8.43it/s]
+ 26%|##5       | 51/200 [00:06&lt;00:17,  8.28it/s]
+ 26%|##6       | 52/200 [00:06&lt;00:17,  8.25it/s]
+ 26%|##6       | 53/200 [00:06&lt;00:17,  8.33it/s]
+ 27%|##7       | 54/200 [00:06&lt;00:17,  8.17it/s]
+ 28%|##7       | 55/200 [00:06&lt;00:17,  8.13it/s]
+ 28%|##8       | 56/200 [00:06&lt;00:17,  8.16it/s]
+ 28%|##8       | 57/200 [00:06&lt;00:17,  8.24it/s]
+ 29%|##9       | 58/200 [00:06&lt;00:17,  8.27it/s]
+ 30%|##9       | 59/200 [00:07&lt;00:16,  8.31it/s]
+ 30%|###       | 60/200 [00:07&lt;00:16,  8.34it/s]
+ 30%|###       | 61/200 [00:07&lt;00:16,  8.40it/s]
+ 31%|###1      | 62/200 [00:07&lt;00:16,  8.41it/s]
+ 32%|###1      | 63/200 [00:07&lt;00:16,  8.32it/s]
+ 32%|###2      | 64/200 [00:07&lt;00:16,  8.32it/s]
+ 32%|###2      | 65/200 [00:07&lt;00:16,  8.32it/s]
+ 33%|###3      | 66/200 [00:07&lt;00:15,  8.38it/s]
+ 34%|###3      | 67/200 [00:08&lt;00:15,  8.33it/s]
+ 34%|###4      | 68/200 [00:08&lt;00:15,  8.28it/s]
+ 34%|###4      | 69/200 [00:08&lt;00:15,  8.26it/s]
+ 35%|###5      | 70/200 [00:08&lt;00:15,  8.23it/s]
+ 36%|###5      | 71/200 [00:08&lt;00:15,  8.29it/s]
+ 36%|###6      | 72/200 [00:08&lt;00:15,  8.20it/s]
+ 36%|###6      | 73/200 [00:08&lt;00:15,  8.22it/s]
+ 37%|###7      | 74/200 [00:08&lt;00:15,  8.22it/s]
+ 38%|###7      | 75/200 [00:09&lt;00:15,  8.29it/s]
+ 38%|###8      | 76/200 [00:09&lt;00:14,  8.32it/s]
+ 38%|###8      | 77/200 [00:09&lt;00:14,  8.30it/s]
+ 39%|###9      | 78/200 [00:09&lt;00:14,  8.35it/s]
+ 40%|###9      | 79/200 [00:09&lt;00:14,  8.30it/s]
+ 40%|####      | 80/200 [00:09&lt;00:14,  8.19it/s]
+ 40%|####      | 81/200 [00:09&lt;00:14,  8.22it/s]
+ 41%|####1     | 82/200 [00:09&lt;00:14,  8.31it/s]
+ 42%|####1     | 83/200 [00:09&lt;00:14,  8.32it/s]
+ 42%|####2     | 84/200 [00:10&lt;00:13,  8.43it/s]
+ 42%|####2     | 85/200 [00:10&lt;00:13,  8.40it/s]
+ 43%|####3     | 86/200 [00:10&lt;00:13,  8.34it/s]
+ 44%|####3     | 87/200 [00:10&lt;00:13,  8.35it/s]
+ 44%|####4     | 88/200 [00:10&lt;00:13,  8.31it/s]
+ 44%|####4     | 89/200 [00:10&lt;00:13,  8.28it/s]
+ 45%|####5     | 90/200 [00:10&lt;00:13,  8.27it/s]
+ 46%|####5     | 91/200 [00:10&lt;00:13,  8.23it/s]
+ 46%|####6     | 92/200 [00:11&lt;00:13,  8.25it/s]
+ 46%|####6     | 93/200 [00:11&lt;00:12,  8.33it/s]
+ 47%|####6     | 94/200 [00:11&lt;00:12,  8.35it/s]
+ 48%|####7     | 95/200 [00:11&lt;00:12,  8.37it/s]
+ 48%|####8     | 96/200 [00:11&lt;00:12,  8.28it/s]
+ 48%|####8     | 97/200 [00:11&lt;00:12,  8.24it/s]
+ 49%|####9     | 98/200 [00:11&lt;00:12,  8.26it/s]
+ 50%|####9     | 99/200 [00:11&lt;00:12,  8.27it/s]
+ 50%|#####     | 100/200 [00:12&lt;00:12,  8.32it/s]
+ 50%|#####     | 101/200 [00:12&lt;00:11,  8.33it/s]
+ 51%|#####1    | 102/200 [00:12&lt;00:11,  8.34it/s]
+ 52%|#####1    | 103/200 [00:12&lt;00:11,  8.33it/s]
+ 52%|#####2    | 104/200 [00:12&lt;00:11,  8.26it/s]
+ 52%|#####2    | 105/200 [00:12&lt;00:11,  8.14it/s]
+ 53%|#####3    | 106/200 [00:12&lt;00:11,  8.30it/s]
+ 54%|#####3    | 107/200 [00:12&lt;00:11,  8.33it/s]
+ 54%|#####4    | 108/200 [00:12&lt;00:11,  8.32it/s]
+ 55%|#####4    | 109/200 [00:13&lt;00:10,  8.34it/s]
+ 55%|#####5    | 110/200 [00:13&lt;00:10,  8.39it/s]
+ 56%|#####5    | 111/200 [00:13&lt;00:10,  8.42it/s]
+ 56%|#####6    | 112/200 [00:13&lt;00:10,  8.40it/s]
+ 56%|#####6    | 113/200 [00:13&lt;00:10,  8.32it/s]
+ 57%|#####6    | 114/200 [00:13&lt;00:10,  8.35it/s]
+ 57%|#####7    | 115/200 [00:13&lt;00:10,  8.35it/s]
+ 58%|#####8    | 116/200 [00:13&lt;00:09,  8.40it/s]
+ 58%|#####8    | 117/200 [00:14&lt;00:09,  8.47it/s]
+ 59%|#####8    | 118/200 [00:14&lt;00:09,  8.48it/s]
+ 60%|#####9    | 119/200 [00:14&lt;00:09,  8.41it/s]
+ 60%|######    | 120/200 [00:14&lt;00:09,  8.36it/s]
+ 60%|######    | 121/200 [00:14&lt;00:09,  8.36it/s]
+ 61%|######1   | 122/200 [00:14&lt;00:09,  8.41it/s]
+ 62%|######1   | 123/200 [00:14&lt;00:09,  8.27it/s]
+ 62%|######2   | 124/200 [00:14&lt;00:09,  8.27it/s]
+ 62%|######2   | 125/200 [00:15&lt;00:08,  8.35it/s]
+ 63%|######3   | 126/200 [00:15&lt;00:08,  8.36it/s]
+ 64%|######3   | 127/200 [00:15&lt;00:08,  8.26it/s]
+ 64%|######4   | 128/200 [00:15&lt;00:08,  8.26it/s]
+ 64%|######4   | 129/200 [00:15&lt;00:08,  8.25it/s]
+ 65%|######5   | 130/200 [00:15&lt;00:08,  8.31it/s]
+ 66%|######5   | 131/200 [00:15&lt;00:08,  8.25it/s]
+ 66%|######6   | 132/200 [00:15&lt;00:08,  8.38it/s]
+ 66%|######6   | 133/200 [00:15&lt;00:08,  8.37it/s]
+ 67%|######7   | 134/200 [00:16&lt;00:07,  8.36it/s]
+ 68%|######7   | 135/200 [00:16&lt;00:07,  8.33it/s]
+ 68%|######8   | 136/200 [00:16&lt;00:07,  8.41it/s]
+ 68%|######8   | 137/200 [00:16&lt;00:07,  8.36it/s]
+ 69%|######9   | 138/200 [00:16&lt;00:07,  8.27it/s]
+ 70%|######9   | 139/200 [00:16&lt;00:07,  8.34it/s]
+ 70%|#######   | 140/200 [00:16&lt;00:07,  8.30it/s]
+ 70%|#######   | 141/200 [00:16&lt;00:07,  8.29it/s]
+ 71%|#######1  | 142/200 [00:17&lt;00:07,  8.25it/s]
+ 72%|#######1  | 143/200 [00:17&lt;00:06,  8.22it/s]
+ 72%|#######2  | 144/200 [00:17&lt;00:07,  7.89it/s]
+ 72%|#######2  | 145/200 [00:17&lt;00:06,  8.03it/s]
+ 73%|#######3  | 146/200 [00:17&lt;00:06,  7.98it/s]
+ 74%|#######3  | 147/200 [00:17&lt;00:06,  8.09it/s]
+ 74%|#######4  | 148/200 [00:17&lt;00:06,  8.12it/s]
+ 74%|#######4  | 149/200 [00:17&lt;00:06,  8.16it/s]
+ 75%|#######5  | 150/200 [00:18&lt;00:06,  8.21it/s]
+ 76%|#######5  | 151/200 [00:18&lt;00:05,  8.22it/s]
+ 76%|#######6  | 152/200 [00:18&lt;00:05,  8.25it/s]
+ 76%|#######6  | 153/200 [00:18&lt;00:05,  8.38it/s]
+ 77%|#######7  | 154/200 [00:18&lt;00:05,  8.36it/s]
+ 78%|#######7  | 155/200 [00:18&lt;00:05,  8.38it/s]
+ 78%|#######8  | 156/200 [00:18&lt;00:05,  8.33it/s]
+ 78%|#######8  | 157/200 [00:18&lt;00:05,  8.35it/s]
+ 79%|#######9  | 158/200 [00:19&lt;00:05,  8.33it/s]
+ 80%|#######9  | 159/200 [00:19&lt;00:05,  8.20it/s]
+ 80%|########  | 160/200 [00:19&lt;00:04,  8.19it/s]
+ 80%|########  | 161/200 [00:19&lt;00:04,  8.27it/s]
+ 81%|########1 | 162/200 [00:19&lt;00:04,  8.28it/s]
+ 82%|########1 | 163/200 [00:19&lt;00:04,  8.29it/s]
+ 82%|########2 | 164/200 [00:19&lt;00:04,  8.27it/s]
+ 82%|########2 | 165/200 [00:19&lt;00:04,  8.21it/s]
+ 83%|########2 | 166/200 [00:19&lt;00:04,  8.24it/s]
+ 84%|########3 | 167/200 [00:20&lt;00:03,  8.32it/s]
+ 84%|########4 | 168/200 [00:20&lt;00:03,  8.29it/s]
+ 84%|########4 | 169/200 [00:20&lt;00:03,  8.29it/s]
+ 85%|########5 | 170/200 [00:20&lt;00:03,  8.22it/s]
+ 86%|########5 | 171/200 [00:20&lt;00:03,  8.21it/s]
+ 86%|########6 | 172/200 [00:20&lt;00:03,  8.21it/s]
+ 86%|########6 | 173/200 [00:20&lt;00:03,  8.26it/s]
+ 87%|########7 | 174/200 [00:20&lt;00:03,  8.27it/s]
+ 88%|########7 | 175/200 [00:21&lt;00:03,  8.27it/s]
+ 88%|########8 | 176/200 [00:21&lt;00:02,  8.29it/s]
+ 88%|########8 | 177/200 [00:21&lt;00:02,  8.28it/s]
+ 89%|########9 | 178/200 [00:21&lt;00:02,  8.24it/s]
+ 90%|########9 | 179/200 [00:21&lt;00:02,  8.23it/s]
+ 90%|######### | 180/200 [00:21&lt;00:02,  8.25it/s]
+ 90%|######### | 181/200 [00:21&lt;00:02,  8.25it/s]
+ 91%|#########1| 182/200 [00:21&lt;00:02,  8.26it/s]
+ 92%|#########1| 183/200 [00:22&lt;00:02,  8.40it/s]
+ 92%|#########2| 184/200 [00:22&lt;00:01,  8.43it/s]
+ 92%|#########2| 185/200 [00:22&lt;00:01,  8.43it/s]
+ 93%|#########3| 186/200 [00:22&lt;00:01,  8.40it/s]
+ 94%|#########3| 187/200 [00:22&lt;00:01,  8.38it/s]
+ 94%|#########3| 188/200 [00:22&lt;00:01,  8.47it/s]
+ 94%|#########4| 189/200 [00:22&lt;00:01,  8.51it/s]
+ 95%|#########5| 190/200 [00:22&lt;00:01,  8.50it/s]
+ 96%|#########5| 191/200 [00:22&lt;00:01,  8.39it/s]
+ 96%|#########6| 192/200 [00:23&lt;00:00,  8.42it/s]
+ 96%|#########6| 193/200 [00:23&lt;00:00,  8.40it/s]
+ 97%|#########7| 194/200 [00:23&lt;00:00,  8.36it/s]
+ 98%|#########7| 195/200 [00:23&lt;00:00,  8.37it/s]
+ 98%|#########8| 196/200 [00:23&lt;00:00,  8.36it/s]
+ 98%|#########8| 197/200 [00:23&lt;00:00,  8.34it/s]
+ 99%|#########9| 198/200 [00:23&lt;00:00,  8.32it/s]
+100%|#########9| 199/200 [00:23&lt;00:00,  8.32it/s]
+100%|##########| 200/200 [00:24&lt;00:00,  8.35it/s]
+100%|##########| 200/200 [00:24&lt;00:00,  8.31it/s]
+
+  0%|          | 0/200 [00:00&lt;?, ?it/s]
+  1%|1         | 2/200 [00:00&lt;00:10, 19.28it/s]
+  2%|2         | 4/200 [00:00&lt;00:10, 18.88it/s]
+  4%|3         | 7/200 [00:00&lt;00:10, 19.17it/s]
+  4%|4         | 9/200 [00:00&lt;00:09, 19.36it/s]
+  6%|5         | 11/200 [00:00&lt;00:09, 19.19it/s]
+  6%|6         | 13/200 [00:00&lt;00:09, 19.20it/s]
+  8%|7         | 15/200 [00:00&lt;00:09, 19.15it/s]
+  8%|8         | 17/200 [00:00&lt;00:09, 18.99it/s]
+ 10%|9         | 19/200 [00:00&lt;00:09, 18.89it/s]
+ 10%|#         | 21/200 [00:01&lt;00:09, 19.09it/s]
+ 12%|#1        | 23/200 [00:01&lt;00:09, 18.84it/s]
+ 12%|#2        | 25/200 [00:01&lt;00:09, 18.90it/s]
+ 14%|#3        | 27/200 [00:01&lt;00:09, 19.01it/s]
+ 14%|#4        | 29/200 [00:01&lt;00:08, 19.21it/s]
+ 16%|#5        | 31/200 [00:01&lt;00:08, 19.04it/s]
+ 16%|#6        | 33/200 [00:01&lt;00:08, 18.99it/s]
+ 18%|#7        | 35/200 [00:01&lt;00:08, 18.88it/s]
+ 18%|#8        | 37/200 [00:01&lt;00:08, 19.15it/s]
+ 20%|#9        | 39/200 [00:02&lt;00:08, 19.25it/s]
+ 20%|##        | 41/200 [00:02&lt;00:08, 19.35it/s]
+ 22%|##1       | 43/200 [00:02&lt;00:08, 19.53it/s]
+ 22%|##2       | 45/200 [00:02&lt;00:07, 19.56it/s]
+ 24%|##3       | 47/200 [00:02&lt;00:07, 19.31it/s]
+ 24%|##4       | 49/200 [00:02&lt;00:07, 19.21it/s]
+ 26%|##5       | 51/200 [00:02&lt;00:07, 19.07it/s]
+ 26%|##6       | 53/200 [00:02&lt;00:07, 19.28it/s]
+ 28%|##7       | 55/200 [00:02&lt;00:07, 18.70it/s]
+ 28%|##8       | 57/200 [00:02&lt;00:07, 19.01it/s]
+ 30%|##9       | 59/200 [00:03&lt;00:07, 18.98it/s]
+ 30%|###       | 61/200 [00:03&lt;00:07, 19.16it/s]
+ 32%|###1      | 63/200 [00:03&lt;00:07, 19.08it/s]
+ 32%|###2      | 65/200 [00:03&lt;00:07, 19.06it/s]
+ 34%|###3      | 67/200 [00:03&lt;00:06, 19.18it/s]
+ 34%|###4      | 69/200 [00:03&lt;00:06, 19.07it/s]
+ 36%|###5      | 71/200 [00:03&lt;00:06, 19.04it/s]
+ 36%|###6      | 73/200 [00:03&lt;00:06, 19.26it/s]
+ 38%|###7      | 75/200 [00:03&lt;00:06, 19.36it/s]
+ 38%|###8      | 77/200 [00:04&lt;00:06, 19.30it/s]
+ 40%|###9      | 79/200 [00:04&lt;00:06, 19.23it/s]
+ 40%|####      | 81/200 [00:04&lt;00:06, 18.99it/s]
+ 42%|####1     | 83/200 [00:04&lt;00:06, 19.08it/s]
+ 42%|####2     | 85/200 [00:04&lt;00:05, 19.17it/s]
+ 44%|####3     | 87/200 [00:04&lt;00:05, 19.06it/s]
+ 44%|####4     | 89/200 [00:04&lt;00:05, 19.20it/s]
+ 46%|####5     | 91/200 [00:04&lt;00:05, 19.14it/s]
+ 46%|####6     | 93/200 [00:04&lt;00:05, 19.36it/s]
+ 48%|####8     | 96/200 [00:05&lt;00:05, 19.62it/s]
+ 49%|####9     | 98/200 [00:05&lt;00:05, 19.53it/s]
+ 50%|#####     | 100/200 [00:05&lt;00:05, 19.30it/s]
+ 51%|#####1    | 102/200 [00:05&lt;00:05, 19.25it/s]
+ 52%|#####2    | 104/200 [00:05&lt;00:05, 18.96it/s]
+ 53%|#####3    | 106/200 [00:05&lt;00:04, 18.98it/s]
+ 54%|#####4    | 108/200 [00:05&lt;00:04, 19.04it/s]
+ 55%|#####5    | 110/200 [00:05&lt;00:04, 19.27it/s]
+ 56%|#####6    | 112/200 [00:05&lt;00:04, 19.36it/s]
+ 57%|#####6    | 114/200 [00:05&lt;00:04, 19.09it/s]
+ 58%|#####8    | 116/200 [00:06&lt;00:04, 19.30it/s]
+ 60%|#####9    | 119/200 [00:06&lt;00:04, 19.54it/s]
+ 60%|######    | 121/200 [00:06&lt;00:04, 19.46it/s]
+ 62%|######1   | 123/200 [00:06&lt;00:03, 19.41it/s]
+ 62%|######2   | 125/200 [00:06&lt;00:03, 19.52it/s]
+ 64%|######3   | 127/200 [00:06&lt;00:03, 19.16it/s]
+ 64%|######4   | 129/200 [00:06&lt;00:03, 19.21it/s]
+ 66%|######5   | 131/200 [00:06&lt;00:03, 19.39it/s]
+ 66%|######6   | 133/200 [00:06&lt;00:03, 19.48it/s]
+ 68%|######7   | 135/200 [00:07&lt;00:03, 19.45it/s]
+ 69%|######9   | 138/200 [00:07&lt;00:03, 19.55it/s]
+ 70%|#######   | 140/200 [00:07&lt;00:03, 19.56it/s]
+ 71%|#######1  | 142/200 [00:07&lt;00:02, 19.52it/s]
+ 72%|#######2  | 144/200 [00:07&lt;00:02, 19.12it/s]
+ 73%|#######3  | 146/200 [00:07&lt;00:02, 19.03it/s]
+ 74%|#######4  | 148/200 [00:07&lt;00:02, 19.00it/s]
+ 75%|#######5  | 150/200 [00:07&lt;00:02, 19.13it/s]
+ 76%|#######6  | 152/200 [00:07&lt;00:02, 18.87it/s]
+ 77%|#######7  | 154/200 [00:08&lt;00:02, 19.19it/s]
+ 78%|#######8  | 156/200 [00:08&lt;00:02, 19.05it/s]
+ 79%|#######9  | 158/200 [00:08&lt;00:02, 19.08it/s]
+ 80%|########  | 160/200 [00:08&lt;00:02, 19.10it/s]
+ 81%|########1 | 162/200 [00:08&lt;00:02, 18.94it/s]
+ 82%|########2 | 164/200 [00:08&lt;00:01, 18.73it/s]
+ 83%|########2 | 166/200 [00:08&lt;00:01, 18.88it/s]
+ 84%|########4 | 169/200 [00:08&lt;00:01, 19.16it/s]
+ 86%|########5 | 171/200 [00:08&lt;00:01, 19.08it/s]
+ 86%|########6 | 173/200 [00:09&lt;00:01, 19.10it/s]
+ 88%|########7 | 175/200 [00:09&lt;00:01, 19.03it/s]
+ 88%|########8 | 177/200 [00:09&lt;00:01, 19.09it/s]
+ 90%|########9 | 179/200 [00:09&lt;00:01, 19.01it/s]
+ 91%|#########1| 182/200 [00:09&lt;00:00, 19.42it/s]
+ 92%|#########2| 184/200 [00:09&lt;00:00, 19.57it/s]
+ 93%|#########3| 186/200 [00:09&lt;00:00, 19.50it/s]
+ 94%|#########3| 188/200 [00:09&lt;00:00, 19.54it/s]
+ 96%|#########5| 191/200 [00:09&lt;00:00, 19.63it/s]
+ 97%|#########7| 194/200 [00:10&lt;00:00, 19.81it/s]
+ 98%|#########8| 196/200 [00:10&lt;00:00, 19.77it/s]
+ 99%|#########9| 198/200 [00:10&lt;00:00, 19.65it/s]
+100%|##########| 200/200 [00:10&lt;00:00, 19.30it/s]
+100%|##########| 200/200 [00:10&lt;00:00, 19.21it/s]
+</pre></div>
+</div>
+</section>
+<section id="mean-squared-error">
+<h2>Mean Squared Error<a class="headerlink" href="#mean-squared-error" title="Permalink to this heading">¶</a></h2>
+<p>ASPIRE has some built-in utility functions for globally aligning the
+estimated rotations to the true rotations and computing the mean
+squared error.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.utils.coor_trans</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_aligned_rotations</span><span class="p">,</span>
+    <span class="n">get_rots_mse</span><span class="p">,</span>
+    <span class="n">register_rotations</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Compare with known true rotations</span>
+<span class="n">Q_mat</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">register_rotations</span><span class="p">(</span><span class="n">rots_est</span><span class="p">,</span> <span class="n">true_rotations</span><span class="p">)</span>
+<span class="n">regrot</span> <span class="o">=</span> <span class="n">get_aligned_rotations</span><span class="p">(</span><span class="n">rots_est</span><span class="p">,</span> <span class="n">Q_mat</span><span class="p">,</span> <span class="n">flag</span><span class="p">)</span>
+<span class="n">mse_reg</span> <span class="o">=</span> <span class="n">get_rots_mse</span><span class="p">(</span><span class="n">regrot</span><span class="p">,</span> <span class="n">true_rotations</span><span class="p">)</span>
+<span class="n">mse_reg</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.032957152189134344
+</pre></div>
+</div>
+</section>
+<section id="volume-reconstruction">
+<h2>Volume Reconstruction<a class="headerlink" href="#volume-reconstruction" title="Permalink to this heading">¶</a></h2>
+<p>Now that we have our class averages and rotation estimates, we can
+estimate the mean volume by supplying the class averages and basis
+for back projection.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.basis</span> <span class="kn">import</span> <span class="n">FFBBasis3D</span>
+<span class="kn">from</span> <span class="nn">aspire.reconstruction</span> <span class="kn">import</span> <span class="n">MeanEstimator</span>
+
+<span class="c1"># Assign the estimated rotations to the class averages</span>
+<span class="n">avgs</span> <span class="o">=</span> <span class="n">avgs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rotations</span><span class="o">=</span><span class="n">rots_est</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Outside of internal operations during <code class="docutils literal notranslate"><span class="pre">ImageSource</span></code>
+construction, mutating meta data will return a new source
+object.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a reasonable Basis for the 3d Volume</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">FFBBasis3D</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">vol</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="c1"># Setup an estimator to perform the back projection.</span>
+<span class="n">estimator</span> <span class="o">=</span> <span class="n">MeanEstimator</span><span class="p">(</span><span class="n">avgs</span><span class="p">,</span> <span class="n">basis</span><span class="p">)</span>
+
+<span class="c1"># Perform the estimation and save the volume.</span>
+<span class="n">estimated_volume</span> <span class="o">=</span> <span class="n">estimator</span><span class="o">.</span><span class="n">estimate</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/200 [00:00&lt;?, ?it/s]
+  0%|          | 1/200 [00:00&lt;00:22,  8.71it/s]
+  1%|1         | 2/200 [00:00&lt;00:22,  8.69it/s]
+  2%|1         | 3/200 [00:00&lt;00:23,  8.49it/s]
+  2%|2         | 4/200 [00:00&lt;00:23,  8.33it/s]
+  2%|2         | 5/200 [00:00&lt;00:23,  8.38it/s]
+  3%|3         | 6/200 [00:00&lt;00:23,  8.34it/s]
+  4%|3         | 7/200 [00:00&lt;00:23,  8.26it/s]
+  4%|4         | 8/200 [00:00&lt;00:23,  8.31it/s]
+  4%|4         | 9/200 [00:01&lt;00:22,  8.40it/s]
+  5%|5         | 10/200 [00:01&lt;00:22,  8.44it/s]
+  6%|5         | 11/200 [00:01&lt;00:22,  8.35it/s]
+  6%|6         | 12/200 [00:01&lt;00:22,  8.40it/s]
+  6%|6         | 13/200 [00:01&lt;00:22,  8.39it/s]
+  7%|7         | 14/200 [00:01&lt;00:22,  8.36it/s]
+  8%|7         | 15/200 [00:01&lt;00:21,  8.43it/s]
+  8%|8         | 16/200 [00:01&lt;00:21,  8.40it/s]
+  8%|8         | 17/200 [00:02&lt;00:21,  8.33it/s]
+  9%|9         | 18/200 [00:02&lt;00:21,  8.41it/s]
+ 10%|9         | 19/200 [00:02&lt;00:21,  8.36it/s]
+ 10%|#         | 20/200 [00:02&lt;00:21,  8.35it/s]
+ 10%|#         | 21/200 [00:02&lt;00:21,  8.37it/s]
+ 11%|#1        | 22/200 [00:02&lt;00:21,  8.32it/s]
+ 12%|#1        | 23/200 [00:02&lt;00:21,  8.35it/s]
+ 12%|#2        | 24/200 [00:02&lt;00:20,  8.41it/s]
+ 12%|#2        | 25/200 [00:02&lt;00:20,  8.40it/s]
+ 13%|#3        | 26/200 [00:03&lt;00:20,  8.36it/s]
+ 14%|#3        | 27/200 [00:03&lt;00:20,  8.36it/s]
+ 14%|#4        | 28/200 [00:03&lt;00:20,  8.38it/s]
+ 14%|#4        | 29/200 [00:03&lt;00:20,  8.40it/s]
+ 15%|#5        | 30/200 [00:03&lt;00:20,  8.36it/s]
+ 16%|#5        | 31/200 [00:03&lt;00:20,  8.44it/s]
+ 16%|#6        | 32/200 [00:03&lt;00:19,  8.46it/s]
+ 16%|#6        | 33/200 [00:03&lt;00:19,  8.42it/s]
+ 17%|#7        | 34/200 [00:04&lt;00:19,  8.42it/s]
+ 18%|#7        | 35/200 [00:04&lt;00:19,  8.43it/s]
+ 18%|#8        | 36/200 [00:04&lt;00:19,  8.42it/s]
+ 18%|#8        | 37/200 [00:04&lt;00:19,  8.40it/s]
+ 19%|#9        | 38/200 [00:04&lt;00:19,  8.38it/s]
+ 20%|#9        | 39/200 [00:04&lt;00:19,  8.46it/s]
+ 20%|##        | 40/200 [00:04&lt;00:18,  8.46it/s]
+ 20%|##        | 41/200 [00:04&lt;00:18,  8.44it/s]
+ 21%|##1       | 42/200 [00:05&lt;00:18,  8.45it/s]
+ 22%|##1       | 43/200 [00:05&lt;00:18,  8.56it/s]
+ 22%|##2       | 44/200 [00:05&lt;00:18,  8.57it/s]
+ 22%|##2       | 45/200 [00:05&lt;00:18,  8.53it/s]
+ 23%|##3       | 46/200 [00:05&lt;00:18,  8.52it/s]
+ 24%|##3       | 47/200 [00:05&lt;00:18,  8.48it/s]
+ 24%|##4       | 48/200 [00:05&lt;00:18,  8.44it/s]
+ 24%|##4       | 49/200 [00:05&lt;00:18,  8.38it/s]
+ 25%|##5       | 50/200 [00:05&lt;00:17,  8.51it/s]
+ 26%|##5       | 51/200 [00:06&lt;00:17,  8.46it/s]
+ 26%|##6       | 52/200 [00:06&lt;00:17,  8.46it/s]
+ 26%|##6       | 53/200 [00:06&lt;00:17,  8.51it/s]
+ 27%|##7       | 54/200 [00:06&lt;00:17,  8.36it/s]
+ 28%|##7       | 55/200 [00:06&lt;00:17,  8.27it/s]
+ 28%|##8       | 56/200 [00:06&lt;00:17,  8.33it/s]
+ 28%|##8       | 57/200 [00:06&lt;00:16,  8.47it/s]
+ 29%|##9       | 58/200 [00:06&lt;00:16,  8.46it/s]
+ 30%|##9       | 59/200 [00:07&lt;00:16,  8.47it/s]
+ 30%|###       | 60/200 [00:07&lt;00:16,  8.43it/s]
+ 30%|###       | 61/200 [00:07&lt;00:16,  8.50it/s]
+ 31%|###1      | 62/200 [00:07&lt;00:16,  8.39it/s]
+ 32%|###1      | 63/200 [00:07&lt;00:16,  8.39it/s]
+ 32%|###2      | 64/200 [00:07&lt;00:16,  8.42it/s]
+ 32%|###2      | 65/200 [00:07&lt;00:16,  8.41it/s]
+ 33%|###3      | 66/200 [00:07&lt;00:15,  8.53it/s]
+ 34%|###3      | 67/200 [00:07&lt;00:15,  8.48it/s]
+ 34%|###4      | 68/200 [00:08&lt;00:15,  8.44it/s]
+ 34%|###4      | 69/200 [00:08&lt;00:15,  8.41it/s]
+ 35%|###5      | 70/200 [00:08&lt;00:15,  8.36it/s]
+ 36%|###5      | 71/200 [00:08&lt;00:15,  8.35it/s]
+ 36%|###6      | 72/200 [00:08&lt;00:15,  8.39it/s]
+ 36%|###6      | 73/200 [00:08&lt;00:15,  8.39it/s]
+ 37%|###7      | 74/200 [00:08&lt;00:14,  8.40it/s]
+ 38%|###7      | 75/200 [00:08&lt;00:14,  8.42it/s]
+ 38%|###8      | 76/200 [00:09&lt;00:14,  8.42it/s]
+ 38%|###8      | 77/200 [00:09&lt;00:14,  8.33it/s]
+ 39%|###9      | 78/200 [00:09&lt;00:14,  8.29it/s]
+ 40%|###9      | 79/200 [00:09&lt;00:14,  8.31it/s]
+ 40%|####      | 80/200 [00:09&lt;00:14,  8.21it/s]
+ 40%|####      | 81/200 [00:09&lt;00:14,  8.26it/s]
+ 41%|####1     | 82/200 [00:09&lt;00:14,  8.36it/s]
+ 42%|####1     | 83/200 [00:09&lt;00:13,  8.39it/s]
+ 42%|####2     | 84/200 [00:09&lt;00:13,  8.45it/s]
+ 42%|####2     | 85/200 [00:10&lt;00:13,  8.41it/s]
+ 43%|####3     | 86/200 [00:10&lt;00:13,  8.37it/s]
+ 44%|####3     | 87/200 [00:10&lt;00:13,  8.46it/s]
+ 44%|####4     | 88/200 [00:10&lt;00:13,  8.43it/s]
+ 44%|####4     | 89/200 [00:10&lt;00:13,  8.37it/s]
+ 45%|####5     | 90/200 [00:10&lt;00:13,  8.41it/s]
+ 46%|####5     | 91/200 [00:10&lt;00:13,  8.33it/s]
+ 46%|####6     | 92/200 [00:10&lt;00:12,  8.33it/s]
+ 46%|####6     | 93/200 [00:11&lt;00:12,  8.44it/s]
+ 47%|####6     | 94/200 [00:11&lt;00:12,  8.51it/s]
+ 48%|####7     | 95/200 [00:11&lt;00:12,  8.51it/s]
+ 48%|####8     | 96/200 [00:11&lt;00:12,  8.37it/s]
+ 48%|####8     | 97/200 [00:11&lt;00:12,  8.29it/s]
+ 49%|####9     | 98/200 [00:11&lt;00:12,  8.32it/s]
+ 50%|####9     | 99/200 [00:11&lt;00:12,  8.32it/s]
+ 50%|#####     | 100/200 [00:11&lt;00:11,  8.35it/s]
+ 50%|#####     | 101/200 [00:12&lt;00:11,  8.33it/s]
+ 51%|#####1    | 102/200 [00:12&lt;00:11,  8.33it/s]
+ 52%|#####1    | 103/200 [00:12&lt;00:11,  8.32it/s]
+ 52%|#####2    | 104/200 [00:12&lt;00:11,  8.25it/s]
+ 52%|#####2    | 105/200 [00:12&lt;00:11,  8.16it/s]
+ 53%|#####3    | 106/200 [00:12&lt;00:11,  8.25it/s]
+ 54%|#####3    | 107/200 [00:12&lt;00:11,  8.29it/s]
+ 54%|#####4    | 108/200 [00:12&lt;00:11,  8.31it/s]
+ 55%|#####4    | 109/200 [00:12&lt;00:10,  8.33it/s]
+ 55%|#####5    | 110/200 [00:13&lt;00:10,  8.38it/s]
+ 56%|#####5    | 111/200 [00:13&lt;00:10,  8.39it/s]
+ 56%|#####6    | 112/200 [00:13&lt;00:10,  8.35it/s]
+ 56%|#####6    | 113/200 [00:13&lt;00:10,  8.27it/s]
+ 57%|#####6    | 114/200 [00:13&lt;00:10,  8.29it/s]
+ 57%|#####7    | 115/200 [00:13&lt;00:10,  8.28it/s]
+ 58%|#####8    | 116/200 [00:13&lt;00:10,  8.36it/s]
+ 58%|#####8    | 117/200 [00:13&lt;00:09,  8.43it/s]
+ 59%|#####8    | 118/200 [00:14&lt;00:09,  8.37it/s]
+ 60%|#####9    | 119/200 [00:14&lt;00:09,  8.32it/s]
+ 60%|######    | 120/200 [00:14&lt;00:09,  8.34it/s]
+ 60%|######    | 121/200 [00:14&lt;00:09,  8.30it/s]
+ 61%|######1   | 122/200 [00:14&lt;00:09,  8.43it/s]
+ 62%|######1   | 123/200 [00:14&lt;00:09,  8.33it/s]
+ 62%|######2   | 124/200 [00:14&lt;00:09,  8.32it/s]
+ 62%|######2   | 125/200 [00:14&lt;00:08,  8.40it/s]
+ 63%|######3   | 126/200 [00:15&lt;00:08,  8.38it/s]
+ 64%|######3   | 127/200 [00:15&lt;00:08,  8.29it/s]
+ 64%|######4   | 128/200 [00:15&lt;00:08,  8.31it/s]
+ 64%|######4   | 129/200 [00:15&lt;00:08,  8.31it/s]
+ 65%|######5   | 130/200 [00:15&lt;00:08,  8.38it/s]
+ 66%|######5   | 131/200 [00:15&lt;00:08,  8.34it/s]
+ 66%|######6   | 132/200 [00:15&lt;00:08,  8.44it/s]
+ 66%|######6   | 133/200 [00:15&lt;00:07,  8.44it/s]
+ 67%|######7   | 134/200 [00:15&lt;00:07,  8.41it/s]
+ 68%|######7   | 135/200 [00:16&lt;00:07,  8.34it/s]
+ 68%|######8   | 136/200 [00:16&lt;00:07,  8.37it/s]
+ 68%|######8   | 137/200 [00:16&lt;00:07,  8.35it/s]
+ 69%|######9   | 138/200 [00:16&lt;00:07,  8.29it/s]
+ 70%|######9   | 139/200 [00:16&lt;00:07,  8.29it/s]
+ 70%|#######   | 140/200 [00:16&lt;00:07,  8.26it/s]
+ 70%|#######   | 141/200 [00:16&lt;00:07,  8.29it/s]
+ 71%|#######1  | 142/200 [00:16&lt;00:07,  8.27it/s]
+ 72%|#######1  | 143/200 [00:17&lt;00:06,  8.24it/s]
+ 72%|#######2  | 144/200 [00:17&lt;00:06,  8.27it/s]
+ 72%|#######2  | 145/200 [00:17&lt;00:06,  8.26it/s]
+ 73%|#######3  | 146/200 [00:17&lt;00:06,  8.12it/s]
+ 74%|#######3  | 147/200 [00:17&lt;00:06,  8.14it/s]
+ 74%|#######4  | 148/200 [00:17&lt;00:06,  8.19it/s]
+ 74%|#######4  | 149/200 [00:17&lt;00:06,  8.21it/s]
+ 75%|#######5  | 150/200 [00:17&lt;00:06,  8.23it/s]
+ 76%|#######5  | 151/200 [00:18&lt;00:05,  8.21it/s]
+ 76%|#######6  | 152/200 [00:18&lt;00:05,  8.18it/s]
+ 76%|#######6  | 153/200 [00:18&lt;00:05,  8.32it/s]
+ 77%|#######7  | 154/200 [00:18&lt;00:05,  8.34it/s]
+ 78%|#######7  | 155/200 [00:18&lt;00:05,  8.34it/s]
+ 78%|#######8  | 156/200 [00:18&lt;00:05,  8.32it/s]
+ 78%|#######8  | 157/200 [00:18&lt;00:05,  8.35it/s]
+ 79%|#######9  | 158/200 [00:18&lt;00:05,  8.34it/s]
+ 80%|#######9  | 159/200 [00:19&lt;00:04,  8.29it/s]
+ 80%|########  | 160/200 [00:19&lt;00:04,  8.26it/s]
+ 80%|########  | 161/200 [00:19&lt;00:04,  8.35it/s]
+ 81%|########1 | 162/200 [00:19&lt;00:04,  8.34it/s]
+ 82%|########1 | 163/200 [00:19&lt;00:04,  8.36it/s]
+ 82%|########2 | 164/200 [00:19&lt;00:04,  8.35it/s]
+ 82%|########2 | 165/200 [00:19&lt;00:04,  8.32it/s]
+ 83%|########2 | 166/200 [00:19&lt;00:04,  8.28it/s]
+ 84%|########3 | 167/200 [00:19&lt;00:03,  8.39it/s]
+ 84%|########4 | 168/200 [00:20&lt;00:03,  8.34it/s]
+ 84%|########4 | 169/200 [00:20&lt;00:03,  8.37it/s]
+ 85%|########5 | 170/200 [00:20&lt;00:03,  8.26it/s]
+ 86%|########5 | 171/200 [00:20&lt;00:03,  8.27it/s]
+ 86%|########6 | 172/200 [00:20&lt;00:03,  8.25it/s]
+ 86%|########6 | 173/200 [00:20&lt;00:03,  8.31it/s]
+ 87%|########7 | 174/200 [00:20&lt;00:03,  8.27it/s]
+ 88%|########7 | 175/200 [00:20&lt;00:03,  8.26it/s]
+ 88%|########8 | 176/200 [00:21&lt;00:02,  8.25it/s]
+ 88%|########8 | 177/200 [00:21&lt;00:02,  8.32it/s]
+ 89%|########9 | 178/200 [00:21&lt;00:02,  8.29it/s]
+ 90%|########9 | 179/200 [00:21&lt;00:02,  8.29it/s]
+ 90%|######### | 180/200 [00:21&lt;00:02,  8.29it/s]
+ 90%|######### | 181/200 [00:21&lt;00:02,  8.31it/s]
+ 91%|#########1| 182/200 [00:21&lt;00:02,  8.35it/s]
+ 92%|#########1| 183/200 [00:21&lt;00:02,  8.40it/s]
+ 92%|#########2| 184/200 [00:22&lt;00:01,  8.36it/s]
+ 92%|#########2| 185/200 [00:22&lt;00:01,  8.30it/s]
+ 93%|#########3| 186/200 [00:22&lt;00:01,  8.27it/s]
+ 94%|#########3| 187/200 [00:22&lt;00:01,  8.20it/s]
+ 94%|#########3| 188/200 [00:22&lt;00:01,  8.26it/s]
+ 94%|#########4| 189/200 [00:22&lt;00:01,  8.28it/s]
+ 95%|#########5| 190/200 [00:22&lt;00:01,  8.34it/s]
+ 96%|#########5| 191/200 [00:22&lt;00:01,  8.36it/s]
+ 96%|#########6| 192/200 [00:22&lt;00:00,  8.39it/s]
+ 96%|#########6| 193/200 [00:23&lt;00:00,  8.43it/s]
+ 97%|#########7| 194/200 [00:23&lt;00:00,  8.39it/s]
+ 98%|#########7| 195/200 [00:23&lt;00:00,  8.34it/s]
+ 98%|#########8| 196/200 [00:23&lt;00:00,  8.30it/s]
+ 98%|#########8| 197/200 [00:23&lt;00:00,  8.30it/s]
+ 99%|#########9| 198/200 [00:23&lt;00:00,  8.30it/s]
+100%|#########9| 199/200 [00:23&lt;00:00,  8.28it/s]
+100%|##########| 200/200 [00:23&lt;00:00,  8.27it/s]
+100%|##########| 200/200 [00:23&lt;00:00,  8.35it/s]
+
+  0%|          | 0/200 [00:00&lt;?, ?it/s]
+  1%|1         | 2/200 [00:00&lt;00:10, 19.16it/s]
+  2%|2         | 4/200 [00:00&lt;00:10, 18.95it/s]
+  3%|3         | 6/200 [00:00&lt;00:10, 19.08it/s]
+  4%|4         | 8/200 [00:00&lt;00:10, 18.69it/s]
+  5%|5         | 10/200 [00:00&lt;00:10, 18.90it/s]
+  6%|6         | 12/200 [00:00&lt;00:10, 18.61it/s]
+  7%|7         | 14/200 [00:00&lt;00:10, 18.36it/s]
+  8%|8         | 16/200 [00:00&lt;00:09, 18.58it/s]
+  9%|9         | 18/200 [00:00&lt;00:09, 18.60it/s]
+ 10%|#         | 20/200 [00:01&lt;00:09, 18.67it/s]
+ 11%|#1        | 22/200 [00:01&lt;00:09, 18.54it/s]
+ 12%|#2        | 24/200 [00:01&lt;00:09, 18.73it/s]
+ 13%|#3        | 26/200 [00:01&lt;00:09, 18.83it/s]
+ 14%|#4        | 28/200 [00:01&lt;00:09, 18.88it/s]
+ 15%|#5        | 30/200 [00:01&lt;00:08, 19.08it/s]
+ 16%|#6        | 32/200 [00:01&lt;00:08, 19.07it/s]
+ 17%|#7        | 34/200 [00:01&lt;00:08, 19.06it/s]
+ 18%|#8        | 36/200 [00:01&lt;00:08, 19.16it/s]
+ 19%|#9        | 38/200 [00:02&lt;00:08, 19.21it/s]
+ 20%|##        | 41/200 [00:02&lt;00:08, 19.47it/s]
+ 22%|##1       | 43/200 [00:02&lt;00:08, 19.59it/s]
+ 23%|##3       | 46/200 [00:02&lt;00:07, 19.60it/s]
+ 24%|##4       | 48/200 [00:02&lt;00:07, 19.44it/s]
+ 25%|##5       | 50/200 [00:02&lt;00:07, 19.52it/s]
+ 26%|##6       | 52/200 [00:02&lt;00:07, 19.59it/s]
+ 27%|##7       | 54/200 [00:02&lt;00:07, 19.46it/s]
+ 28%|##8       | 56/200 [00:02&lt;00:07, 19.12it/s]
+ 30%|##9       | 59/200 [00:03&lt;00:07, 19.26it/s]
+ 30%|###       | 61/200 [00:03&lt;00:07, 19.25it/s]
+ 32%|###1      | 63/200 [00:03&lt;00:07, 19.26it/s]
+ 32%|###2      | 65/200 [00:03&lt;00:07, 19.13it/s]
+ 34%|###3      | 67/200 [00:03&lt;00:06, 19.37it/s]
+ 34%|###4      | 69/200 [00:03&lt;00:06, 19.28it/s]
+ 36%|###5      | 71/200 [00:03&lt;00:06, 19.43it/s]
+ 36%|###6      | 73/200 [00:03&lt;00:06, 19.47it/s]
+ 38%|###7      | 75/200 [00:03&lt;00:06, 19.54it/s]
+ 38%|###8      | 77/200 [00:04&lt;00:06, 19.47it/s]
+ 40%|###9      | 79/200 [00:04&lt;00:06, 19.31it/s]
+ 40%|####      | 81/200 [00:04&lt;00:06, 19.07it/s]
+ 42%|####1     | 83/200 [00:04&lt;00:06, 19.31it/s]
+ 42%|####2     | 85/200 [00:04&lt;00:05, 19.31it/s]
+ 44%|####3     | 87/200 [00:04&lt;00:05, 19.34it/s]
+ 44%|####4     | 89/200 [00:04&lt;00:05, 19.25it/s]
+ 46%|####5     | 91/200 [00:04&lt;00:05, 19.33it/s]
+ 46%|####6     | 93/200 [00:04&lt;00:05, 19.37it/s]
+ 48%|####8     | 96/200 [00:05&lt;00:05, 19.53it/s]
+ 49%|####9     | 98/200 [00:05&lt;00:05, 19.47it/s]
+ 50%|#####     | 100/200 [00:05&lt;00:05, 19.32it/s]
+ 51%|#####1    | 102/200 [00:05&lt;00:05, 19.40it/s]
+ 52%|#####2    | 104/200 [00:05&lt;00:05, 19.10it/s]
+ 53%|#####3    | 106/200 [00:05&lt;00:04, 19.27it/s]
+ 54%|#####4    | 108/200 [00:05&lt;00:04, 19.34it/s]
+ 55%|#####5    | 110/200 [00:05&lt;00:04, 19.52it/s]
+ 56%|#####6    | 112/200 [00:05&lt;00:04, 19.48it/s]
+ 57%|#####6    | 114/200 [00:05&lt;00:04, 19.42it/s]
+ 58%|#####8    | 116/200 [00:06&lt;00:04, 19.53it/s]
+ 59%|#####8    | 118/200 [00:06&lt;00:04, 19.56it/s]
+ 60%|######    | 120/200 [00:06&lt;00:04, 19.15it/s]
+ 61%|######1   | 122/200 [00:06&lt;00:04, 19.33it/s]
+ 62%|######2   | 124/200 [00:06&lt;00:03, 19.17it/s]
+ 63%|######3   | 126/200 [00:06&lt;00:03, 19.39it/s]
+ 64%|######4   | 128/200 [00:06&lt;00:03, 19.15it/s]
+ 65%|######5   | 130/200 [00:06&lt;00:03, 19.31it/s]
+ 66%|######6   | 132/200 [00:06&lt;00:03, 19.26it/s]
+ 67%|######7   | 134/200 [00:06&lt;00:03, 19.22it/s]
+ 68%|######8   | 136/200 [00:07&lt;00:03, 19.31it/s]
+ 69%|######9   | 138/200 [00:07&lt;00:03, 19.34it/s]
+ 70%|#######   | 141/200 [00:07&lt;00:03, 19.50it/s]
+ 72%|#######1  | 143/200 [00:07&lt;00:02, 19.12it/s]
+ 72%|#######2  | 145/200 [00:07&lt;00:02, 19.25it/s]
+ 74%|#######3  | 147/200 [00:07&lt;00:02, 19.06it/s]
+ 74%|#######4  | 149/200 [00:07&lt;00:02, 18.97it/s]
+ 76%|#######5  | 151/200 [00:07&lt;00:02, 19.08it/s]
+ 76%|#######6  | 153/200 [00:07&lt;00:02, 19.28it/s]
+ 78%|#######7  | 155/200 [00:08&lt;00:02, 19.25it/s]
+ 78%|#######8  | 157/200 [00:08&lt;00:02, 19.35it/s]
+ 80%|#######9  | 159/200 [00:08&lt;00:02, 19.24it/s]
+ 81%|########1 | 162/200 [00:08&lt;00:01, 19.47it/s]
+ 82%|########2 | 164/200 [00:08&lt;00:01, 19.13it/s]
+ 83%|########2 | 166/200 [00:08&lt;00:01, 18.99it/s]
+ 84%|########4 | 169/200 [00:08&lt;00:01, 19.38it/s]
+ 86%|########5 | 171/200 [00:08&lt;00:01, 19.35it/s]
+ 86%|########6 | 173/200 [00:08&lt;00:01, 19.35it/s]
+ 88%|########7 | 175/200 [00:09&lt;00:01, 19.50it/s]
+ 88%|########8 | 177/200 [00:09&lt;00:01, 19.40it/s]
+ 90%|########9 | 179/200 [00:09&lt;00:01, 19.23it/s]
+ 90%|######### | 181/200 [00:09&lt;00:00, 19.39it/s]
+ 92%|#########2| 184/200 [00:09&lt;00:00, 19.56it/s]
+ 93%|#########3| 186/200 [00:09&lt;00:00, 19.56it/s]
+ 94%|#########3| 188/200 [00:09&lt;00:00, 19.44it/s]
+ 96%|#########5| 191/200 [00:09&lt;00:00, 19.61it/s]
+ 97%|#########7| 194/200 [00:10&lt;00:00, 19.74it/s]
+ 98%|#########8| 196/200 [00:10&lt;00:00, 19.75it/s]
+ 99%|#########9| 198/200 [00:10&lt;00:00, 19.77it/s]
+100%|##########| 200/200 [00:10&lt;00:00, 19.59it/s]
+100%|##########| 200/200 [00:10&lt;00:00, 19.28it/s]
+</pre></div>
+</div>
+</section>
+<section id="comparison-of-estimated-volume-with-source-volume">
+<h2>Comparison of Estimated Volume with Source Volume<a class="headerlink" href="#comparison-of-estimated-volume-with-source-volume" title="Permalink to this heading">¶</a></h2>
+<p>To get a visual confirmation that our results are sane, we rotate
+the estimated volume by the estimated rotations and project along
+the z-axis.  These estimated projections should align with the
+original projection images.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">aspire.source</span> <span class="kn">import</span> <span class="n">ArrayImageSource</span>
+
+<span class="c1"># Get projections from the estimated volume using the estimated</span>
+<span class="c1"># orientations.  We instantiate the projections as an</span>
+<span class="c1"># ``ArrayImageSource`` to access the ``Image.show()`` method.</span>
+<span class="n">projections_est</span> <span class="o">=</span> <span class="n">ArrayImageSource</span><span class="p">(</span><span class="n">estimated_volume</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">rots_est</span><span class="p">))</span>
+
+<span class="c1"># We view the first 10 projections of the estimated volume.</span>
+<span class="n">projections_est</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_007.png" srcset="../_images/sphx_glr_pipeline_demo_007.png" alt="pipeline demo" class = "sphx-glr-single-img"/><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For comparison, we view the first 10 source projections.</span>
+<span class="n">src</span><span class="o">.</span><span class="n">projections</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../_images/sphx_glr_pipeline_demo_008.png" srcset="../_images/sphx_glr_pipeline_demo_008.png" alt="pipeline demo" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 8 minutes  7.144 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-tutorials-pipeline-demo-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/295b04456c31e136eefc8b736de1e0a4/pipeline_demo.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">pipeline_demo.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/9b821c495445535e6775308a42eb84d7/pipeline_demo.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">pipeline_demo.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aspire_introduction.html" class="btn btn-neutral float-left" title="ASPIRE-Python Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials/index.html" class="btn btn-neutral float-right" title="Component Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Princeton University.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

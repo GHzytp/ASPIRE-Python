@@ -1,0 +1,17 @@
+
+:orphan:
+
+.. _sphx_glr_auto_tutorials_sg_execution_times:
+
+
+Computation times
+=================
+**08:25.406** total execution time for **auto_tutorials** files:
+
++------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_tutorials_pipeline_demo.py` (``pipeline_demo.py``)             | 08:07.144 | 0.0 MB |
++------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_tutorials_aspire_introduction.py` (``aspire_introduction.py``) | 00:11.281 | 0.0 MB |
++------------------------------------------------------------------------------------+-----------+--------+
+| :ref:`sphx_glr_auto_tutorials_configuration.py` (``configuration.py``)             | 00:06.981 | 0.0 MB |
++------------------------------------------------------------------------------------+-----------+--------+
